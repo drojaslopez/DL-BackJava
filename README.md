@@ -1,9 +1,7 @@
 # Sistema de Gestión de Cuentas Bancarias
 ## Daniel Rojas Lopez
 
-Este proyecto implementa un sistema de gestión de cuentas bancarias con un enfoque en **Dominio Puro**, siguiendo los principios de Domain-Driven Design (DDD). Está desarrollado en Java 21 sin dependencias de frameworks externos para el core de negocio, garantizando un código limpio, mantenible y testeable.
-
-## 🎯 Objetivo del Proyecto
+## Objetivo del Proyecto
 
 El desafío consistió en crear un repositorio estructurado que cumpla con tres requerimientos fundamentales:
 
@@ -11,7 +9,7 @@ El desafío consistió en crear un repositorio estructurado que cumpla con tres 
 2. **Suite Automatizada con JUnit 5 y Mockito** (3 Puntos) - Tests exhaustivos con patrón AAA
 3. **Cobertura del 100% en Métodos Críticos** (4 Puntos) - Cobertura verificable con JaCoCo
 
-## 🏗️ Arquitectura del Proyecto
+##  Arquitectura del Proyecto
 
 El proyecto sigue una arquitectura en capas con separación clara de responsabilidades:
 
@@ -26,7 +24,7 @@ src/
     └── servicio/         # Tests de servicios con Mockito
 ```
 
-## 💡 Modelo de Dominio
+##  Modelo de Dominio
 
 ### Entidades Principales
 
@@ -143,7 +141,7 @@ public class ExcepcionMontoInvalido extends RuntimeException {
 - Mejoran la legibilidad del código de negocio
 - Separan errores de negocio de errores técnicos
 
-## 🔧 Servicios con Inyección por Constructor
+## Servicios con Inyección por Constructor
 
 ### ServicioCuenta
 Orquesta las operaciones de negocio utilizando el patrón de inyección de dependencias por constructor.
@@ -203,7 +201,7 @@ public interface RepositorioCuentas {
 - Sigue el principio de inversión de dependencias
 - Habilita múltiples estrategias de persistencia
 
-## 🧪 Suite de Tests
+## Suite de Tests
 
 ### Patrón AAA (Arrange, Act, Assert)
 
@@ -302,7 +300,7 @@ class ServicioCuentaTest {
 - `verify()` confirma que se llamó al método esperado
 - Permite probar el servicio sin dependencias reales
 
-## 📊 Cobertura de Código con JaCoCo
+## Cobertura de Código con JaCoCo
 
 El proyecto está configurado para garantizar el 100% de cobertura en métodos críticos:
 
@@ -338,7 +336,7 @@ El proyecto está configurado para garantizar el 100% de cobertura en métodos c
 - El build falla si no se cumple el objetivo
 - Genera un reporte HTML en `target/site/jacoco/index.html`
 
-## 🚀 Ejecución del Proyecto
+##  Ejecución del Proyecto
 
 ### Requisitos Previos
 - Java 21 o superior
@@ -381,28 +379,3 @@ mvn test -Dtest=CuentaBancariaTest
 mvn test -Dtest=ServicioCuentaTest#transferirEntreCuentasExistentes
 ```
 
-
-## 🎓 Conceptos Aplicados
-
-- **Domain-Driven Design (DDD)**: Modelo de dominio rico y expresivo
-- **Inmutabilidad**: Campos `final` en entidades de valor
-- **Validación defensiva**: Validaciones en constructores y métodos
-- **Excepciones específicas**: Separación de errores de negocio
-- **Inyección por constructor**: Facilita testing y dependencias claras
-- **Optional**: Manejo elegante de valores ausentes
-- **Patrón AAA**: Tests estructurados y mantenibles
-- **Mockito**: Doble de prueba para dependencias externas
-- **TDD**: Tests que guían el diseño del código
-
-## 📝 Glosario Técnico
-
-- **CuentaBancaria**: Entidad principal que representa una cuenta bancaria
-- **Titular**: Persona propietaria de la cuenta
-- **Saldo**: Monto disponible en la cuenta
-- **NumeroCuenta**: Identificador único de la cuenta
-- **TipoCuenta**: Tipo de cuenta (AHORROS, CORRIENTE)
-- **Transaccion**: Movimiento de dinero (DEPOSITO, RETIRO)
-- **ExcepcionSaldoInsuficiente**: Excepción cuando no hay saldo suficiente
-- **ExcepcionMontoInvalido**: Excepción cuando el monto es inválido
-- **ServicioCuenta**: Servicio con lógica de negocio e inyección por constructor
-- **RepositorioCuentas**: Interfaz para persistencia de cuentas
