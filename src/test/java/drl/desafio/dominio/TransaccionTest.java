@@ -177,6 +177,27 @@ class TransaccionTest {
     }
 
     @Test
+    @DisplayName("Equals con objeto nulo")
+    void equalsConObjetoNulo() {
+        // Arrange
+        Transaccion transaccion = new Transaccion("TXN-12345678", TipoTransaccion.DEPOSITO, 1000.0, "Depósito");
+
+        // Act & Assert
+        assertNotEquals(transaccion, null);
+    }
+
+    @Test
+    @DisplayName("Equals con objeto de diferente clase")
+    void equalsConObjetoDeDiferenteClase() {
+        // Arrange
+        Transaccion transaccion = new Transaccion("TXN-12345678", TipoTransaccion.DEPOSITO, 1000.0, "Depósito");
+        String otroObjeto = "texto";
+
+        // Act & Assert
+        assertNotEquals(transaccion, otroObjeto);
+    }
+
+    @Test
     @DisplayName("HashCode consistente con equals")
     void hashCodeConsistenteConEquals() {
         // Arrange
@@ -188,19 +209,20 @@ class TransaccionTest {
     }
 
     @Test
-    @DisplayName("Crear transacción de retiro")
-    void crearTransaccionDeRetiro() {
+    @DisplayName("ToString de transacción")
+    void toStringDeTransaccion() {
         // Arrange
-        String id = "TXN-87654321";
-        TipoTransaccion tipo = TipoTransaccion.RETIRO;
-        double monto = 500.0;
-        String descripcion = "Retiro de efectivo";
+        Transaccion transaccion = new Transaccion("TXN-12345678", TipoTransaccion.DEPOSITO, 1000.0, "Depósito");
 
         // Act
-        Transaccion transaccion = new Transaccion(id, tipo, monto, descripcion);
+        String toString = transaccion.toString();
 
         // Assert
-        assertEquals(TipoTransaccion.RETIRO, transaccion.getTipo());
-        assertEquals(500.0, transaccion.getMonto());
+        assertNotNull(toString);
+        assertTrue(toString.contains("Transaccion"));
+        assertTrue(toString.contains("TXN-12345678"));
+        assertTrue(toString.contains("DEPOSITO"));
+        assertTrue(toString.contains("1000.0"));
+        assertTrue(toString.contains("Depósito"));
     }
 }

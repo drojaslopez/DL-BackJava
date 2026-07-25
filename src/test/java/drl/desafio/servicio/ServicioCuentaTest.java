@@ -239,6 +239,21 @@ class ServicioCuentaTest {
     }
 
     @Test
+    @DisplayName("Retirar con número de cuenta solo espacios debe lanzar excepción")
+    void retirarConNumeroDeCuentaSoloEspaciosDebeLanzarExcepcion() {
+        // Arrange
+        ServicioCuenta servicioCuenta = new ServicioCuenta(repositorioCuentas);
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> servicioCuenta.retirar("   ", 500.0, "Retiro")
+        );
+        assertEquals("El número de cuenta no puede ser nulo o vacío", exception.getMessage());
+        verify(repositorioCuentas, never()).buscarPorNumero(any());
+    }
+
+    @Test
     @DisplayName("Transferir entre cuentas existentes")
     void transferirEntreCuentasExistentes() {
         // Arrange
@@ -282,6 +297,21 @@ class ServicioCuentaTest {
     }
 
     @Test
+    @DisplayName("Transferir con cuenta origen solo espacios debe lanzar excepción")
+    void transferirConCuentaOrigenSoloEspaciosDebeLanzarExcepcion() {
+        // Arrange
+        ServicioCuenta servicioCuenta = new ServicioCuenta(repositorioCuentas);
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> servicioCuenta.transferir("   ", "CTA-87654321", 300.0, "Transferencia")
+        );
+        assertEquals("La cuenta origen no puede ser nula o vacía", exception.getMessage());
+        verify(repositorioCuentas, never()).buscarPorNumero(any());
+    }
+
+    @Test
     @DisplayName("Transferir con cuenta destino nula debe lanzar excepción")
     void transferirConCuentaDestinoNulaDebeLanzarExcepcion() {
         // Arrange
@@ -291,6 +321,21 @@ class ServicioCuentaTest {
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> servicioCuenta.transferir("CTA-12345678", null, 300.0, "Transferencia")
+        );
+        assertEquals("La cuenta destino no puede ser nula o vacía", exception.getMessage());
+        verify(repositorioCuentas, never()).buscarPorNumero(any());
+    }
+
+    @Test
+    @DisplayName("Transferir con cuenta destino solo espacios debe lanzar excepción")
+    void transferirConCuentaDestinoSoloEspaciosDebeLanzarExcepcion() {
+        // Arrange
+        ServicioCuenta servicioCuenta = new ServicioCuenta(repositorioCuentas);
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> servicioCuenta.transferir("CTA-12345678", "   ", 300.0, "Transferencia")
         );
         assertEquals("La cuenta destino no puede ser nula o vacía", exception.getMessage());
         verify(repositorioCuentas, never()).buscarPorNumero(any());
@@ -410,6 +455,21 @@ class ServicioCuentaTest {
     }
 
     @Test
+    @DisplayName("Consultar saldo con número de cuenta solo espacios debe lanzar excepción")
+    void consultarSaldoConNumeroDeCuentaSoloEspaciosDebeLanzarExcepcion() {
+        // Arrange
+        ServicioCuenta servicioCuenta = new ServicioCuenta(repositorioCuentas);
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> servicioCuenta.consultarSaldo("   ")
+        );
+        assertEquals("El número de cuenta no puede ser nulo o vacío", exception.getMessage());
+        verify(repositorioCuentas, never()).buscarPorNumero(any());
+    }
+
+    @Test
     @DisplayName("Buscar cuentas por titular")
     void buscarCuentasPorTitular() {
         // Arrange
@@ -515,6 +575,21 @@ class ServicioCuentaTest {
     }
 
     @Test
+    @DisplayName("Desactivar cuenta con número solo espacios debe lanzar excepción")
+    void desactivarCuentaConNumeroSoloEspaciosDebeLanzarExcepcion() {
+        // Arrange
+        ServicioCuenta servicioCuenta = new ServicioCuenta(repositorioCuentas);
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> servicioCuenta.desactivarCuenta("   ")
+        );
+        assertEquals("El número de cuenta no puede ser nulo o vacío", exception.getMessage());
+        verify(repositorioCuentas, never()).buscarPorNumero(any());
+    }
+
+    @Test
     @DisplayName("Activar cuenta existente")
     void activarCuentaExistente() {
         // Arrange
@@ -563,6 +638,21 @@ class ServicioCuentaTest {
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> servicioCuenta.activarCuenta(null)
+        );
+        assertEquals("El número de cuenta no puede ser nulo o vacío", exception.getMessage());
+        verify(repositorioCuentas, never()).buscarPorNumero(any());
+    }
+
+    @Test
+    @DisplayName("Activar cuenta con número solo espacios debe lanzar excepción")
+    void activarCuentaConNumeroSoloEspaciosDebeLanzarExcepcion() {
+        // Arrange
+        ServicioCuenta servicioCuenta = new ServicioCuenta(repositorioCuentas);
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> servicioCuenta.activarCuenta("   ")
         );
         assertEquals("El número de cuenta no puede ser nulo o vacío", exception.getMessage());
         verify(repositorioCuentas, never()).buscarPorNumero(any());

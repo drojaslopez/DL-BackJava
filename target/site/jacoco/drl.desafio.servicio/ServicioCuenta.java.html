@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ServicioCuenta.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desafioHito1</a> &gt; <a href="index.source.html" class="el_package">drl.desafio.servicio</a> &gt; <span class="el_source">ServicioCuenta.java</span></div><h1>ServicioCuenta.java</h1><pre class="source lang-java linenums">package drl.desafio.servicio;
+
+import drl.desafio.dominio.CuentaBancaria;
+import drl.desafio.dominio.TipoCuenta;
+import drl.desafio.dominio.Titular;
+import drl.desafio.excepciones.ExcepcionMontoInvalido;
+import drl.desafio.excepciones.ExcepcionSaldoInsuficiente;
+
+import java.util.List;
+
+public class ServicioCuenta {
+    private final RepositorioCuentas repositorioCuentas;
+
+<span class="fc" id="L14">    public ServicioCuenta(RepositorioCuentas repositorioCuentas) {</span>
+<span class="fc bfc" id="L15" title="All 2 branches covered.">        if (repositorioCuentas == null) {</span>
+<span class="fc" id="L16">            throw new IllegalArgumentException(&quot;El repositorio de cuentas no puede ser nulo&quot;);</span>
+        }
+<span class="fc" id="L18">        this.repositorioCuentas = repositorioCuentas;</span>
+<span class="fc" id="L19">    }</span>
+
+    public CuentaBancaria crearCuenta(Titular titular, TipoCuenta tipoCuenta, double saldoInicial) {
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        if (titular == null) {</span>
+<span class="fc" id="L23">            throw new IllegalArgumentException(&quot;El titular no puede ser nulo&quot;);</span>
+        }
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (tipoCuenta == null) {</span>
+<span class="fc" id="L26">            throw new IllegalArgumentException(&quot;El tipo de cuenta no puede ser nulo&quot;);</span>
+        }
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (saldoInicial &lt; 0) {</span>
+<span class="fc" id="L29">            throw new ExcepcionMontoInvalido(&quot;El saldo inicial no puede ser negativo&quot;);</span>
+        }
+        
+<span class="fc" id="L32">        CuentaBancaria cuenta = new CuentaBancaria(titular, tipoCuenta, saldoInicial);</span>
+<span class="fc" id="L33">        repositorioCuentas.guardar(cuenta);</span>
+<span class="fc" id="L34">        return cuenta;</span>
+    }
+
+    public void depositar(String numeroCuenta, double monto, String descripcion) {
+<span class="fc bfc" id="L38" title="All 4 branches covered.">        if (numeroCuenta == null || numeroCuenta.trim().isEmpty()) {</span>
+<span class="fc" id="L39">            throw new IllegalArgumentException(&quot;El número de cuenta no puede ser nulo o vacío&quot;);</span>
+        }
+        
+<span class="fc" id="L42">        CuentaBancaria cuenta = repositorioCuentas.buscarPorNumero(numeroCuenta)</span>
+<span class="fc" id="L43">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Cuenta no encontrada: &quot; + numeroCuenta));</span>
+        
+<span class="fc" id="L45">        cuenta.depositar(monto, descripcion);</span>
+<span class="fc" id="L46">    }</span>
+
+    public void retirar(String numeroCuenta, double monto, String descripcion) {
+<span class="fc bfc" id="L49" title="All 4 branches covered.">        if (numeroCuenta == null || numeroCuenta.trim().isEmpty()) {</span>
+<span class="fc" id="L50">            throw new IllegalArgumentException(&quot;El número de cuenta no puede ser nulo o vacío&quot;);</span>
+        }
+        
+<span class="fc" id="L53">        CuentaBancaria cuenta = repositorioCuentas.buscarPorNumero(numeroCuenta)</span>
+<span class="fc" id="L54">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Cuenta no encontrada: &quot; + numeroCuenta));</span>
+        
+<span class="fc" id="L56">        cuenta.retirar(monto, descripcion);</span>
+<span class="fc" id="L57">    }</span>
+
+    public void transferir(String cuentaOrigen, String cuentaDestino, double monto, String descripcion) {
+<span class="fc bfc" id="L60" title="All 4 branches covered.">        if (cuentaOrigen == null || cuentaOrigen.trim().isEmpty()) {</span>
+<span class="fc" id="L61">            throw new IllegalArgumentException(&quot;La cuenta origen no puede ser nula o vacía&quot;);</span>
+        }
+<span class="fc bfc" id="L63" title="All 4 branches covered.">        if (cuentaDestino == null || cuentaDestino.trim().isEmpty()) {</span>
+<span class="fc" id="L64">            throw new IllegalArgumentException(&quot;La cuenta destino no puede ser nula o vacía&quot;);</span>
+        }
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (cuentaOrigen.equals(cuentaDestino)) {</span>
+<span class="fc" id="L67">            throw new IllegalArgumentException(&quot;No se puede transferir a la misma cuenta&quot;);</span>
+        }
+        
+<span class="fc" id="L70">        CuentaBancaria origen = repositorioCuentas.buscarPorNumero(cuentaOrigen)</span>
+<span class="fc" id="L71">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Cuenta origen no encontrada: &quot; + cuentaOrigen));</span>
+        
+<span class="fc" id="L73">        CuentaBancaria destino = repositorioCuentas.buscarPorNumero(cuentaDestino)</span>
+<span class="fc" id="L74">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Cuenta destino no encontrada: &quot; + cuentaDestino));</span>
+        
+<span class="fc" id="L76">        origen.transferir(destino, monto, descripcion);</span>
+<span class="fc" id="L77">    }</span>
+
+    public double consultarSaldo(String numeroCuenta) {
+<span class="fc bfc" id="L80" title="All 4 branches covered.">        if (numeroCuenta == null || numeroCuenta.trim().isEmpty()) {</span>
+<span class="fc" id="L81">            throw new IllegalArgumentException(&quot;El número de cuenta no puede ser nulo o vacío&quot;);</span>
+        }
+        
+<span class="fc" id="L84">        return repositorioCuentas.buscarPorNumero(numeroCuenta)</span>
+<span class="fc" id="L85">                .map(CuentaBancaria::getSaldo)</span>
+<span class="fc" id="L86">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Cuenta no encontrada: &quot; + numeroCuenta));</span>
+    }
+
+    public List&lt;CuentaBancaria&gt; buscarCuentasPorTitular(String identificacion) {
+<span class="fc bfc" id="L90" title="All 4 branches covered.">        if (identificacion == null || identificacion.trim().isEmpty()) {</span>
+<span class="fc" id="L91">            throw new IllegalArgumentException(&quot;La identificación no puede ser nula o vacía&quot;);</span>
+        }
+        
+<span class="fc" id="L94">        return repositorioCuentas.buscarPorTitular(identificacion);</span>
+    }
+
+    public void desactivarCuenta(String numeroCuenta) {
+<span class="fc bfc" id="L98" title="All 4 branches covered.">        if (numeroCuenta == null || numeroCuenta.trim().isEmpty()) {</span>
+<span class="fc" id="L99">            throw new IllegalArgumentException(&quot;El número de cuenta no puede ser nulo o vacío&quot;);</span>
+        }
+        
+<span class="fc" id="L102">        CuentaBancaria cuenta = repositorioCuentas.buscarPorNumero(numeroCuenta)</span>
+<span class="fc" id="L103">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Cuenta no encontrada: &quot; + numeroCuenta));</span>
+        
+<span class="fc" id="L105">        cuenta.desactivar();</span>
+<span class="fc" id="L106">    }</span>
+
+    public void activarCuenta(String numeroCuenta) {
+<span class="fc bfc" id="L109" title="All 4 branches covered.">        if (numeroCuenta == null || numeroCuenta.trim().isEmpty()) {</span>
+<span class="fc" id="L110">            throw new IllegalArgumentException(&quot;El número de cuenta no puede ser nulo o vacío&quot;);</span>
+        }
+        
+<span class="fc" id="L113">        CuentaBancaria cuenta = repositorioCuentas.buscarPorNumero(numeroCuenta)</span>
+<span class="fc" id="L114">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Cuenta no encontrada: &quot; + numeroCuenta));</span>
+        
+<span class="fc" id="L116">        cuenta.activar();</span>
+<span class="fc" id="L117">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

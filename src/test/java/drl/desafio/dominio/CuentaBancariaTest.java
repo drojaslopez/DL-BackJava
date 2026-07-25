@@ -442,6 +442,75 @@ class CuentaBancariaTest {
     }
 
     @Test
+    @DisplayName("Desigualdad de cuentas con diferentes números")
+    void desigualdadDeCuentasConDiferentesNumeros() {
+        // Arrange
+        Titular titular = new Titular("12345678", "Juan", "Perez");
+        CuentaBancaria cuenta1 = new CuentaBancaria(titular, TipoCuenta.AHORROS, 1000.0);
+        CuentaBancaria cuenta2 = new CuentaBancaria(titular, TipoCuenta.AHORROS, 1000.0);
+
+        // Act & Assert
+        assertNotEquals(cuenta1, cuenta2);
+    }
+
+    @Test
+    @DisplayName("Equals con objeto nulo")
+    void equalsConObjetoNulo() {
+        // Arrange
+        Titular titular = new Titular("12345678", "Juan", "Perez");
+        CuentaBancaria cuenta = new CuentaBancaria(titular, TipoCuenta.AHORROS, 1000.0);
+
+        // Act & Assert
+        assertNotEquals(cuenta, null);
+    }
+
+    @Test
+    @DisplayName("Equals con objeto de diferente clase")
+    void equalsConObjetoDeDiferenteClase() {
+        // Arrange
+        Titular titular = new Titular("12345678", "Juan", "Perez");
+        CuentaBancaria cuenta = new CuentaBancaria(titular, TipoCuenta.AHORROS, 1000.0);
+        String otroObjeto = "texto";
+
+        // Act & Assert
+        assertNotEquals(cuenta, otroObjeto);
+    }
+
+    @Test
+    @DisplayName("HashCode de cuenta")
+    void hashCodeDeCuenta() {
+        // Arrange
+        Titular titular = new Titular("12345678", "Juan", "Perez");
+        CuentaBancaria cuenta = new CuentaBancaria(titular, TipoCuenta.AHORROS, 1000.0);
+
+        // Act
+        int hashCode = cuenta.hashCode();
+
+        // Assert
+        assertNotEquals(0, hashCode);
+    }
+
+    @Test
+    @DisplayName("ToString de cuenta")
+    void toStringDeCuenta() {
+        // Arrange
+        Titular titular = new Titular("12345678", "Juan", "Perez");
+        CuentaBancaria cuenta = new CuentaBancaria(titular, TipoCuenta.AHORROS, 1000.0);
+
+        // Act
+        String toString = cuenta.toString();
+
+        // Assert
+        assertNotNull(toString);
+        assertTrue(toString.contains("CuentaBancaria"));
+        assertTrue(toString.contains("numeroCuenta"));
+        assertTrue(toString.contains("Juan Perez"));
+        assertTrue(toString.contains("AHORROS"));
+        assertTrue(toString.contains("1000.0"));
+        assertTrue(toString.contains("activa=true"));
+    }
+
+    @Test
     @DisplayName("Historial de transacciones retorna copia defensiva")
     void historialDeTransaccionesRetornaCopiaDefensiva() {
         // Arrange

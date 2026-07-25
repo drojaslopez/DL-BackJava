@@ -152,6 +152,27 @@ class TitularTest {
     }
 
     @Test
+    @DisplayName("Equals con objeto nulo")
+    void equalsConObjetoNulo() {
+        // Arrange
+        Titular titular = new Titular("12345678", "Juan", "Perez");
+
+        // Act & Assert
+        assertNotEquals(titular, null);
+    }
+
+    @Test
+    @DisplayName("Equals con objeto de diferente clase")
+    void equalsConObjetoDeDiferenteClase() {
+        // Arrange
+        Titular titular = new Titular("12345678", "Juan", "Perez");
+        String otroObjeto = "texto";
+
+        // Act & Assert
+        assertNotEquals(titular, otroObjeto);
+    }
+
+    @Test
     @DisplayName("HashCode consistente con equals")
     void hashCodeConsistenteConEquals() {
         // Arrange
@@ -160,5 +181,22 @@ class TitularTest {
 
         // Act & Assert
         assertEquals(titular1.hashCode(), titular2.hashCode());
+    }
+
+    @Test
+    @DisplayName("ToString de titular")
+    void toStringDeTitular() {
+        // Arrange
+        Titular titular = new Titular("12345678", "Juan", "Perez");
+
+        // Act
+        String toString = titular.toString();
+
+        // Assert
+        assertNotNull(toString);
+        assertTrue(toString.contains("Titular"));
+        assertTrue(toString.contains("12345678"));
+        assertTrue(toString.contains("Juan"));
+        assertTrue(toString.contains("Perez"));
     }
 }

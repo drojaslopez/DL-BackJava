@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CuentaBancaria.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desafioHito1</a> &gt; <a href="index.source.html" class="el_package">drl.desafio.dominio</a> &gt; <span class="el_source">CuentaBancaria.java</span></div><h1>CuentaBancaria.java</h1><pre class="source lang-java linenums">package drl.desafio.dominio;
+
+import drl.desafio.excepciones.ExcepcionMontoInvalido;
+import drl.desafio.excepciones.ExcepcionSaldoInsuficiente;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
+public class CuentaBancaria {
+    private final String numeroCuenta;
+    private final Titular titular;
+    private final TipoCuenta tipoCuenta;
+    private double saldo;
+    private final List&lt;Transaccion&gt; historialTransacciones;
+    private boolean activa;
+
+<span class="fc" id="L19">    public CuentaBancaria(Titular titular, TipoCuenta tipoCuenta, double saldoInicial) {</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        if (titular == null) {</span>
+<span class="fc" id="L21">            throw new IllegalArgumentException(&quot;El titular no puede ser nulo&quot;);</span>
+        }
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (tipoCuenta == null) {</span>
+<span class="fc" id="L24">            throw new IllegalArgumentException(&quot;El tipo de cuenta no puede ser nulo&quot;);</span>
+        }
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (saldoInicial &lt; 0) {</span>
+<span class="fc" id="L27">            throw new IllegalArgumentException(&quot;El saldo inicial no puede ser negativo&quot;);</span>
+        }
+<span class="fc" id="L29">        this.numeroCuenta = generarNumeroCuenta();</span>
+<span class="fc" id="L30">        this.titular = titular;</span>
+<span class="fc" id="L31">        this.tipoCuenta = tipoCuenta;</span>
+<span class="fc" id="L32">        this.saldo = saldoInicial;</span>
+<span class="fc" id="L33">        this.historialTransacciones = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L34">        this.activa = true;</span>
+<span class="fc" id="L35">    }</span>
+
+    private String generarNumeroCuenta() {
+<span class="fc" id="L38">        return &quot;CTA-&quot; + UUID.randomUUID().toString().substring(0, 8).toUpperCase();</span>
+    }
+
+    public String getNumeroCuenta() {
+<span class="fc" id="L42">        return numeroCuenta;</span>
+    }
+
+    public Titular getTitular() {
+<span class="fc" id="L46">        return titular;</span>
+    }
+
+    public TipoCuenta getTipoCuenta() {
+<span class="fc" id="L50">        return tipoCuenta;</span>
+    }
+
+    public double getSaldo() {
+<span class="fc" id="L54">        return saldo;</span>
+    }
+
+    public boolean isActiva() {
+<span class="fc" id="L58">        return activa;</span>
+    }
+
+    public List&lt;Transaccion&gt; getHistorialTransacciones() {
+<span class="fc" id="L62">        return new ArrayList&lt;&gt;(historialTransacciones);</span>
+    }
+
+    public void depositar(double monto, String descripcion) {
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (!activa) {</span>
+<span class="fc" id="L67">            throw new IllegalStateException(&quot;La cuenta no está activa&quot;);</span>
+        }
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        if (monto &lt;= 0) {</span>
+<span class="fc" id="L70">            throw new ExcepcionMontoInvalido(&quot;El monto a depositar debe ser mayor a cero&quot;);</span>
+        }
+<span class="fc bfc" id="L72" title="All 4 branches covered.">        if (descripcion == null || descripcion.trim().isEmpty()) {</span>
+<span class="fc" id="L73">            throw new IllegalArgumentException(&quot;La descripción no puede ser nula o vacía&quot;);</span>
+        }
+        
+<span class="fc" id="L76">        saldo += monto;</span>
+<span class="fc" id="L77">        String idTransaccion = &quot;TXN-&quot; + UUID.randomUUID().toString().substring(0, 8).toUpperCase();</span>
+<span class="fc" id="L78">        Transaccion transaccion = new Transaccion(idTransaccion, TipoTransaccion.DEPOSITO, monto, descripcion);</span>
+<span class="fc" id="L79">        historialTransacciones.add(transaccion);</span>
+<span class="fc" id="L80">    }</span>
+
+    public void retirar(double monto, String descripcion) {
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        if (!activa) {</span>
+<span class="fc" id="L84">            throw new IllegalStateException(&quot;La cuenta no está activa&quot;);</span>
+        }
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        if (monto &lt;= 0) {</span>
+<span class="fc" id="L87">            throw new ExcepcionMontoInvalido(&quot;El monto a retirar debe ser mayor a cero&quot;);</span>
+        }
+<span class="fc bfc" id="L89" title="All 4 branches covered.">        if (descripcion == null || descripcion.trim().isEmpty()) {</span>
+<span class="fc" id="L90">            throw new IllegalArgumentException(&quot;La descripción no puede ser nula o vacía&quot;);</span>
+        }
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        if (saldo &lt; monto) {</span>
+<span class="fc" id="L93">            throw new ExcepcionSaldoInsuficiente(&quot;Saldo insuficiente. Saldo actual: &quot; + saldo + &quot;, Monto requerido: &quot; + monto);</span>
+        }
+        
+<span class="fc" id="L96">        saldo -= monto;</span>
+<span class="fc" id="L97">        String idTransaccion = &quot;TXN-&quot; + UUID.randomUUID().toString().substring(0, 8).toUpperCase();</span>
+<span class="fc" id="L98">        Transaccion transaccion = new Transaccion(idTransaccion, TipoTransaccion.RETIRO, monto, descripcion);</span>
+<span class="fc" id="L99">        historialTransacciones.add(transaccion);</span>
+<span class="fc" id="L100">    }</span>
+
+    public void transferir(CuentaBancaria cuentaDestino, double monto, String descripcion) {
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        if (!activa) {</span>
+<span class="fc" id="L104">            throw new IllegalStateException(&quot;La cuenta origen no está activa&quot;);</span>
+        }
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        if (cuentaDestino == null) {</span>
+<span class="fc" id="L107">            throw new IllegalArgumentException(&quot;La cuenta destino no puede ser nula&quot;);</span>
+        }
+<span class="fc bfc" id="L109" title="All 2 branches covered.">        if (!cuentaDestino.isActiva()) {</span>
+<span class="fc" id="L110">            throw new IllegalStateException(&quot;La cuenta destino no está activa&quot;);</span>
+        }
+<span class="fc bfc" id="L112" title="All 2 branches covered.">        if (this.numeroCuenta.equals(cuentaDestino.getNumeroCuenta())) {</span>
+<span class="fc" id="L113">            throw new IllegalArgumentException(&quot;No se puede transferir a la misma cuenta&quot;);</span>
+        }
+        
+<span class="fc" id="L116">        this.retirar(monto, &quot;Transferencia a &quot; + cuentaDestino.getNumeroCuenta() + &quot;: &quot; + descripcion);</span>
+<span class="fc" id="L117">        cuentaDestino.depositar(monto, &quot;Transferencia desde &quot; + this.numeroCuenta + &quot;: &quot; + descripcion);</span>
+<span class="fc" id="L118">    }</span>
+
+    public void desactivar() {
+<span class="fc" id="L121">        this.activa = false;</span>
+<span class="fc" id="L122">    }</span>
+
+    public void activar() {
+<span class="fc" id="L125">        this.activa = true;</span>
+<span class="fc" id="L126">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="fc bfc" id="L130" title="All 2 branches covered.">        if (this == o) return true;</span>
+<span class="fc bfc" id="L131" title="All 4 branches covered.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="fc" id="L132">        CuentaBancaria that = (CuentaBancaria) o;</span>
+<span class="fc" id="L133">        return Objects.equals(numeroCuenta, that.numeroCuenta);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L138">        return Objects.hash(numeroCuenta);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="fc" id="L143">        return &quot;CuentaBancaria{&quot; +</span>
+                &quot;numeroCuenta='&quot; + numeroCuenta + '\'' +
+<span class="fc" id="L145">                &quot;, titular=&quot; + titular.getNombreCompleto() +</span>
+                &quot;, tipoCuenta=&quot; + tipoCuenta +
+                &quot;, saldo=&quot; + saldo +
+                &quot;, activa=&quot; + activa +
+                '}';
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
