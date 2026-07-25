@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="drl.desafio.dominio.CuentaBancariaTest" time="0.232" tests="28" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="drl.desafio.dominio.CuentaBancariaTest" time="0.227" tests="28" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="26"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="CL"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-26.0.1\bin"/>
-    <property name="sun.java.command" value="C:\Users\drolo\AppData\Local\Temp\surefire14109014730791211119\surefirebooter-20260725104042169_3.jar C:\Users\drolo\AppData\Local\Temp\surefire14109014730791211119 2026-07-25T10-40-42_007-jvmRun1 surefire-20260725104042169_1tmp surefire_0-20260725104042169_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\drolo\AppData\Local\Temp\surefire11747626845671298841\surefirebooter-20260725104316532_3.jar C:\Users\drolo\AppData\Local\Temp\surefire11747626845671298841 2026-07-25T10-43-16_341-jvmRun1 surefire-20260725104316532_1tmp surefire_0-20260725104316532_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\drolo\OneDrive\Desktop\Proyecto\Back-Java\DL-BackJava\target\test-classes;C:\Users\drolo\OneDrive\Desktop\Proyecto\Back-Java\DL-BackJava\target\classes;C:\Users\drolo\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\drolo\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\drolo\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\drolo\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\drolo\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\drolo\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;C:\Users\drolo\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.0\junit-jupiter-params-5.10.0.jar;C:\Users\drolo\.m2\repository\org\mockito\mockito-core\5.7.0\mockito-core-5.7.0.jar;C:\Users\drolo\.m2\repository\net\bytebuddy\byte-buddy\1.14.9\byte-buddy-1.14.9.jar;C:\Users\drolo\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.9\byte-buddy-agent-1.14.9.jar;C:\Users\drolo\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\drolo\.m2\repository\org\mockito\mockito-junit-jupiter\5.7.0\mockito-junit-jupiter-5.7.0.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\drolo\AppData\Local\Temp\surefire14109014730791211119\surefirebooter-20260725104042169_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\drolo\AppData\Local\Temp\surefire11747626845671298841\surefirebooter-20260725104316532_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="26.0.1+8-34"/>
@@ -59,32 +59,32 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="70.0"/>
   </properties>
-  <testcase name="transferirConSaldoInsuficienteDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.093"/>
-  <testcase name="depositarMontoNegativoDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.005"/>
-  <testcase name="crearCuentaConSaldoInicialNegativoDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.006"/>
-  <testcase name="activarCuenta" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.001"/>
+  <testcase name="transferirConSaldoInsuficienteDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.092"/>
+  <testcase name="depositarMontoNegativoDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.004"/>
+  <testcase name="crearCuentaConSaldoInicialNegativoDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.004"/>
+  <testcase name="activarCuenta" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.002"/>
   <testcase name="desactivarCuenta" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.002"/>
-  <testcase name="depositarConDescripcionNulaDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.003"/>
-  <testcase name="depositarMontoCeroDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.003"/>
+  <testcase name="depositarConDescripcionNulaDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.002"/>
+  <testcase name="depositarMontoCeroDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.004"/>
   <testcase name="retirarConSaldoInsuficienteDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.002"/>
-  <testcase name="crearCuentaConTitularNuloDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.001"/>
+  <testcase name="crearCuentaConTitularNuloDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.0"/>
   <testcase name="crearCuentaBancariaConDatosValidos" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.003"/>
-  <testcase name="depositarEnCuentaInactivaDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.002"/>
-  <testcase name="crearCuentaConTipoNuloDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.001"/>
-  <testcase name="depositarMontoValido" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.016"/>
+  <testcase name="depositarEnCuentaInactivaDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.001"/>
+  <testcase name="crearCuentaConTipoNuloDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.004"/>
+  <testcase name="depositarMontoValido" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.017"/>
   <testcase name="crearCuentaConSaldoInicialCero" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.002"/>
-  <testcase name="retirarMontoCeroDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.002"/>
-  <testcase name="depositarConDescripcionVaciaDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.001"/>
+  <testcase name="retirarMontoCeroDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.003"/>
+  <testcase name="depositarConDescripcionVaciaDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.002"/>
   <testcase name="transferirEntreCuentasValidas" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.002"/>
-  <testcase name="transferirACuentaInactivaDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.003"/>
-  <testcase name="transferirDesdeCuentaInactivaDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.004"/>
-  <testcase name="retirarConDescripcionNulaDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.002"/>
-  <testcase name="igualdadDeCuentasPorNumeroCuenta" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.001"/>
+  <testcase name="transferirACuentaInactivaDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.001"/>
+  <testcase name="transferirDesdeCuentaInactivaDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.002"/>
+  <testcase name="retirarConDescripcionNulaDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.001"/>
+  <testcase name="igualdadDeCuentasPorNumeroCuenta" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.002"/>
   <testcase name="transferirACuentaNulaDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.001"/>
-  <testcase name="retirarMontoNegativoDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.002"/>
+  <testcase name="retirarMontoNegativoDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.001"/>
   <testcase name="historialDeTransaccionesRetornaCopiaDefensiva" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.001"/>
-  <testcase name="transferirALaMismaCuentaDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.003"/>
+  <testcase name="transferirALaMismaCuentaDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.002"/>
   <testcase name="retirarEnCuentaInactivaDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.002"/>
-  <testcase name="retirarMontoValidoConSaldoSuficiente" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.001"/>
-  <testcase name="retirarConDescripcionVaciaDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.0"/>
+  <testcase name="retirarMontoValidoConSaldoSuficiente" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.0"/>
+  <testcase name="retirarConDescripcionVaciaDebeLanzarExcepcion" classname="drl.desafio.dominio.CuentaBancariaTest" time="0.001"/>
 </testsuite>
