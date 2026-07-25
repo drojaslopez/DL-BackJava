@@ -1,4 +1,5 @@
 # Sistema de Gestión de Cuentas Bancarias
+## Daniel Rojas Lopez
 
 Este proyecto implementa un sistema de gestión de cuentas bancarias con un enfoque en **Dominio Puro**, siguiendo los principios de Domain-Driven Design (DDD). Está desarrollado en Java 21 sin dependencias de frameworks externos para el core de negocio, garantizando un código limpio, mantenible y testeable.
 
@@ -380,15 +381,6 @@ mvn test -Dtest=CuentaBancariaTest
 mvn test -Dtest=ServicioCuentaTest#transferirEntreCuentasExistentes
 ```
 
-## 📈 Estadísticas del Proyecto
-
-- **Total de clases de dominio**: 5 entidades
-- **Total de excepciones personalizadas**: 2
-- **Total de servicios**: 2 (1 servicio + 1 repositorio)
-- **Total de tests**: 69 tests
-- **Frameworks utilizados**: JUnit 5, Mockito, JaCoCo
-- **Versión de Java**: 21
-- **Cobertura objetivo**: 100% (Line + Branch)
 
 ## 🎓 Conceptos Aplicados
 
@@ -414,15 +406,3 @@ mvn test -Dtest=ServicioCuentaTest#transferirEntreCuentasExistentes
 - **ExcepcionMontoInvalido**: Excepción cuando el monto es inválido
 - **ServicioCuenta**: Servicio con lógica de negocio e inyección por constructor
 - **RepositorioCuentas**: Interfaz para persistencia de cuentas
-
-## 🤝 Contribución
-
-Este proyecto es un entregable académico que demuestra:
-- Arquitectura de software limpia
-- Prácticas de testing profesional
-- Cobertura de código exhaustiva
-- Documentación clara y mantenible
-
----
-
-**Desarrollado con Java 21 + JUnit 5 + Mockito + JaCoCo**
