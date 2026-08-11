@@ -1,9 +1,0 @@
-GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-desafioHito1,drl.desafio.excepciones,ExcepcionMontoInvalido,0,4,0,0,0,2,0,1,0,1
-desafioHito1,drl.desafio.excepciones,ExcepcionSaldoInsuficiente,0,4,0,0,0,2,0,1,0,1
-desafioHito1,drl.desafio.servicio,ServicioCuenta,0,281,0,42,0,58,0,37,0,16
-desafioHito1,drl.desafio.dominio,TipoCuenta,0,15,0,0,0,3,0,1,0,1
-desafioHito1,drl.desafio.dominio,CuentaBancaria,0,304,0,38,0,67,0,35,0,16
-desafioHito1,drl.desafio.dominio,Transaccion,2,117,1,17,0,26,1,17,0,9
-desafioHito1,drl.desafio.dominio,TipoTransaccion,0,15,0,0,0,3,0,1,0,1
-desafioHito1,drl.desafio.dominio,Titular,0,103,0,18,0,21,0,17,0,8
