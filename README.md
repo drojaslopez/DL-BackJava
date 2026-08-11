@@ -1,28 +1,15 @@
 # DL-BackJava
 
-Sistema de gestión de cuentas bancarias en **Java 17** con dominio puro (DDD), tests con **JUnit 5 + Mockito** y cobertura **JaCoCo ~98%**.
+Sistema de gestión de cuentas bancarias en Java 17 con dominio puro (DDD) y Clean Architecture.
 
-Bank account management system in **Java 17** with a pure domain (DDD), tests with **JUnit 5 + Mockito** and **JaCoCo ~98%** coverage.
-
-## Estructura / Structure
-
-```
-src/
-├── main/java/drl/desafio/
-│   ├── dominio/            # Entities / exceptions (pure domain)
-│   ├── excepciones/
-│   └── servicio/
-└── test/java/drl/desafio/
-    ├── dominio/
-    └── servicio/
-```
+Bank account management system in Java 17 with a pure domain (DDD) and Clean Architecture.
 
 ## Documentación / Documentation
 
-| Idioma | Language | Documento | Document |
-|---|---|---|---|
-| 🇪🇸 Español | Spanish | [README.es.md](README.es.md) | Análisis de estructura, propuestas de cambio y mejoras |
-| 🇬🇧 English | English | [README.en.md](README.en.md) | Structure analysis, change proposals and improvements |
+| Idioma / Language | Documento / Document |
+|---|---|
+| Español | [README.es.md](README.es.md) — Ámbito, funcionalidades, modelo y estructura |
+| English | [README.en.md](README.en.md) — Scope, features, model and structure |
 
 ## Inicio rápido / Quick start
 
@@ -30,4 +17,6 @@ src/
 mvn clean verify
 ```
 
-Reporte de cobertura: `target/site/jacoco/index.html`
+Ejecuta los **103 tests** y el chequeo de cobertura JaCoCo (100% de líneas y ramas por paquete). Reporte HTML: `target/site/jacoco/index.html`.
+
+Runs the **103 tests** and the JaCoCo coverage check (100% line and branch per package). HTML report: `target/site/jacoco/index.html`.

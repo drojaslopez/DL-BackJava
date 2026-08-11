@@ -1,253 +1,105 @@
-# DL-BackJava — Structure Analysis and Change Proposal
+# DL-BackJava
 
-> **Document language:** English · **Code language:** English
+Bank account management system in **Java 17** with a **pure domain** (DDD) and layered architecture. It is a framework-free backend: the heart of the system is the business logic (entities and use cases), ready to be connected to any interface (REST API, CLI, etc.).
+
 > Versión en español: [README.es.md](README.es.md)
 
-This document uses `TEMPLATE_SYSTEM_README.md` as a baseline, analyzes the current repository structure, detects issues, and proposes concrete changes along with the elements that should be added.
+## Scope
 
----
+Backend project that models the core of a bank: **account holders**, **bank accounts**, and their **transactions**. It focuses on:
 
-## 1. Current repository structure
+- **Validated business rules**: account states, balances, positive amounts, mandatory descriptions.
+- **Pure domain entities**: no framework or infrastructure dependencies.
+- **Clean Architecture**: `domain` → `application` (use cases) → `infrastructure` (adapters), with dependencies pointing inward.
+- **Comprehensive test coverage**: JaCoCo at **100% line and branch coverage per package**.
 
-```
-DL-BackJava/
-├── .git/
-├── Desafio.md                    # Challenge statement
-├── README.md                     # Main documentation (Spanish)
-├── TEMPLATE_SYSTEM_README.md     # Template system docs (orphaned references)
-├── pom.xml                       # Maven config (Java 17)
-├── src/
-│   ├── main/java/drl/desafio/
-│   │   ├── dominio/
-│   │   │   ├── CuentaBancaria.java
-│   │   │   ├── TipoCuenta.java
-│   │   │   ├── TipoTransaccion.java
-│   │   │   ├── Titular.java
-│   │   │   └── Transaccion.java
-│   │   ├── excepciones/
-│   │   │   ├── ExcepcionMontoInvalido.java
-│   │   │   └── ExcepcionSaldoInsuficiente.java
-│   │   └── servicio/
-│   │       ├── RepositorioCuentas.java
-│   │       └── ServicioCuenta.java
-│   └── test/java/drl/desafio/
-│       ├── dominio/
-│       │   ├── CuentaBancariaTest.java
-│       │   ├── TitularTest.java
-│       │   └── TransaccionTest.java
-│       └── servicio/
-│           └── ServicioCuentaTest.java
-└── target/                       # ⚠️ Build output COMMITTED to git
-```
+**Out of scope:** real persistence (database), REST API, authentication, and frontend. Persistence is currently in-memory (`InMemoryAccountRepository`), interchangeable with any other adapter of the `AccountRepository` port.
 
-**Positive aspects:** pure domain with no frameworks, separated business exceptions, AAA-pattern tests, ~98% JaCoCo coverage, well-configured `pom.xml` (Java 17).
+## Features
 
----
-
-## 2. Detected issues
-
-### 🔴 Critical
-
-| # | Issue | Impact |
-|---|-------|--------|
-| C1 | `target/` is committed to git (`*.class` versioned) | Repository polluted with binary artifacts |
-| C2 | No `.gitignore` exists | Any build/IDE artifact will be versioned |
-| C3 | `TEMPLATE_SYSTEM_README.md` references non-existent files (`project-template.yaml`, `structure-analyzer.py`) | Broken docs / unfulfilled promise |
-
-### 🟠 Important
-
-| # | Issue | Impact |
-|---|-------|--------|
-| I1 | All code is named in Spanish (`CuentaBancaria`, `ServicioCuenta`, etc.) | Inconsistent with the English coding standard |
-| I2 | `dominio`, `excepciones`, `servicio` packages in Spanish | Poor alignment with Clean Architecture / DDD |
-| I3 | `pom.xml`: `groupId=drl.desafio`, `artifactId=desafioHito1` with placeholder `name`/`url` (`FIXME`) | Incomplete project metadata |
-
-### 🟡 Recommended
-
-| # | Issue | Impact |
-|---|-------|--------|
-| R1 | No `LICENSE` file | Distribution license is undefined |
-| R2 | No CI/CD (`.github/workflows/`) | Tests and coverage are not validated automatically |
-| R3 | No YAML template or analyzer for the template system | `TEMPLATE_SYSTEM_README.md` remains as orphaned docs |
-| R4 | Documentation exists only in Spanish | Limits repository reach |
-
----
-
-## 3. Change proposal
-
-### 3.1 Code naming (Spanish → English)
-
-Rename packages, classes, and methods to English:
-
-| Current Spanish | Proposed English |
+| Operation | Description |
 |---|---|
-| `drl.desafio.dominio` | `drl.desafio.domain` |
-| `drl.desafio.servicio` | `drl.desafio.service` |
-| `drl.desafio.excepciones` | `drl.desafio.exception` |
-| `Titular` | `AccountHolder` |
-| `CuentaBancaria` | `BankAccount` |
-| `Transaccion` | `Transaction` |
-| `TipoCuenta` | `AccountType` |
-| `TipoTransaccion` | `TransactionType` |
-| `ExcepcionMontoInvalido` | `InvalidAmountException` |
-| `ExcepcionSaldoInsuficiente` | `InsufficientBalanceException` |
-| `RepositorioCuentas` | `AccountRepository` |
-| `ServicioCuenta` | `AccountService` |
+| `createAccount` | Creates an account (savings or checking) with an initial balance and generates a unique `ACC-XXXXXXXX` number. |
+| `deposit` | Makes a deposit and records the transaction. |
+| `withdraw` | Withdraws money if there is enough balance; otherwise throws `InsufficientBalanceException`. |
+| `transfer` | Transfers between accounts (source → destination) validating that both exist, are active, and are not the same account. |
+| `checkBalance` | Checks the current balance of an account. |
+| `findAccountsByAccountHolder` | Lists a holder's accounts by identification. |
+| `activateAccount` / `deactivateAccount` | Activates or deactivates an account (deactivated accounts cannot operate). |
 
-| Current method / field | Proposed |
-|---|---|
-| `numeroCuenta` | `accountNumber` |
-| `generarNumeroCuenta()` | `generateAccountNumber()` |
-| `depositar()` | `deposit()` |
-| `retirar()` | `withdraw()` |
-| `transferir()` | `transfer()` |
-| `desactivar()` / `activar()` | `deactivate()` / `activate()` |
-| `getSaldo()` | `getBalance()` |
-| `getHistorialTransacciones()` | `getTransactionHistory()` |
-| `getNombreCompleto()` | `getFullName()` |
-| `guardar()` | `save()` |
-| `buscarPorNumero()` | `findByNumber()` |
-| `buscarPorTitular()` | `findByAccountHolder()` |
-| `crearCuenta()` | `createAccount()` |
-| `consultarSaldo()` | `checkBalance()` |
-| `desactivarCuenta()` / `activarCuenta()` | `deactivateAccount()` / `activateAccount()` |
+**Domain rules:**
 
-Code example after renaming:
+- Amounts are always positive; the initial balance cannot be negative.
+- Description is mandatory for every operation.
+- Only active accounts can operate.
+- You cannot transfer to the same account or to a non-existent or inactive account.
+- Every operation records a `Transaction` with type (`DEPOSIT`/`WITHDRAWAL`), date, and description.
+
+### Usage example
 
 ```java
-public class BankAccount {
-    private final String accountNumber;
-    private final AccountHolder accountHolder;
-    private final AccountType accountType;
-    private double balance;
-    private final List<Transaction> transactionHistory;
-    private boolean active;
+AccountRepository repository = new InMemoryAccountRepository();
+AccountService service = new AccountService(repository);
 
-    public void deposit(double amount, String description) {
-        if (!active) {
-            throw new IllegalStateException("The account is not active");
-        }
-        if (amount <= 0) {
-            throw new InvalidAmountException("Deposit amount must be greater than zero");
-        }
-        if (description == null || description.trim().isEmpty()) {
-            throw new IllegalArgumentException("Description cannot be null or empty");
-        }
+AccountHolder holder = new AccountHolder("12345678", "Ana", "García");
+BankAccount account = service.createAccount(holder, AccountType.SAVINGS, 1000.0);
 
-        balance += amount;
-        String transactionId = "TXN-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
-        transactionHistory.add(new Transaction(transactionId, TransactionType.DEPOSIT, amount, description));
-    }
-}
+service.deposit(account.getAccountNumber(), 500.0, "Payroll");
+service.withdraw(account.getAccountNumber(), 200.0, "Grocery shopping");
+
+double balance = service.checkBalance(account.getAccountNumber()); // 1300.0
 ```
 
-### 3.2 Target package structure (Clean Architecture)
-
-Aligned with the spirit of `TEMPLATE_SYSTEM_README.md` (domain, application, and infrastructure layers):
+## Domain model
 
 ```
-src/main/java/drl/desafio/
-├── domain/
-│   ├── entity/
-│   │   ├── AccountHolder.java
-│   │   ├── AccountType.java
-│   │   ├── BankAccount.java
-│   │   ├── Transaction.java
-│   │   └── TransactionType.java
-│   └── exception/
-│       ├── InvalidAmountException.java
-│       └── InsufficientBalanceException.java
-├── application/
-│   ├── port/
-│   │   └── AccountRepository.java
-│   └── service/
-│       └── AccountService.java
-└── infrastructure/
-    └── persistence/
-        └── InMemoryAccountRepository.java   # 🔧 new (optional adapter)
+AccountHolder 1 ───── * BankAccount 1 ───── * Transaction
 ```
 
-```
-src/test/java/drl/desafio/
-├── domain/
-│   ├── BankAccountTest.java
-│   ├── AccountHolderTest.java
-│   └── TransactionTest.java
-└── application/
-    └── AccountServiceTest.java
-```
-
-> **Note:** the current structure (`dominio`/`excepciones`/`servicio`) is already valid for the pure-domain challenge. The layered proposal is a recommended evolution, not a challenge requirement.
-
-### 3.3 Maven metadata
-
-- Align `groupId` with the new base package, e.g. `drl.desafio`.
-- Replace placeholder `name`/`url` with real metadata (remove `FIXME`).
-- Add `maven-enforcer-plugin` to pin the Java version.
-
----
-
-## 4. What to add
-
-### Checklist of new files
-
-| File | Priority | Purpose |
+| Entity | Attributes | Notes |
 |---|---|---|
-| `.gitignore` | 🔴 Critical | Exclude `target/`, `.idea/`, `*.iml`, `.classpath`, `.project`, `.settings/`, `.vscode/`, `*.log` |
-| `project-template.yaml` | 🟠 Important | YAML template referenced by `TEMPLATE_SYSTEM_README.md` |
-| `structure-analyzer.py` | 🟠 Important | Python analyzer referenced by `TEMPLATE_SYSTEM_README.md` |
-| `LICENSE` | 🟡 Recommended | Define project license |
-| `.github/workflows/ci.yml` | 🟡 Recommended | CI: `mvn clean verify` + JaCoCo coverage check |
-| `README.es.md` / `README.en.md` | ✅ Done | Bilingual docs linked from `README.md` |
+| `AccountHolder` | `identification`, `firstName`, `lastName` | Holder; identity by `identification`. `getFullName()` method. |
+| `BankAccount` | `accountNumber`, `accountHolder`, `accountType`, `balance`, `transactionHistory`, `active` | Identity by `accountNumber` (`ACC-XXXXXXXX` format). |
+| `Transaction` | `id`, `type`, `amount`, `date`, `description` | Immutable; identity by `id` (`TXN-XXXXXXXX` format). |
+| `AccountType` | `SAVINGS`, `CHECKING` | Account type enum. |
+| `TransactionType` | `DEPOSIT`, `WITHDRAWAL` | Transaction type enum. |
 
-### Example `.gitignore`
+**Business exceptions** (`domain.exception`): `InvalidAmountException` (invalid amount) and `InsufficientBalanceException` (insufficient balance).
 
-```gitignore
-# Build output
-target/
+## Structure
 
-# IDE
-.idea/
-*.iml
-.classpath
-.project
-.settings/
-.vscode/
-
-# OS
-.DS_Store
-Thumbs.db
+```
+src/
+├── main/java/drl/desafio/
+│   ├── domain/
+│   │   ├── entity/          # AccountHolder, AccountType, BankAccount, Transaction, TransactionType
+│   │   └── exception/       # InvalidAmountException, InsufficientBalanceException
+│   ├── application/
+│   │   ├── port/            # AccountRepository (interface / contract)
+│   │   └── service/         # AccountService (use cases)
+│   └── infrastructure/
+│       └── persistence/     # InMemoryAccountRepository (in-memory adapter)
+└── test/java/drl/desafio/
+    ├── domain/entity/       # AccountHolderTest, BankAccountTest, TransactionTest
+    ├── application/service/ # AccountServiceTest
+    └── infrastructure/persistence/ # InMemoryAccountRepositoryTest
 ```
 
-### Steps to remove `target/` from version control
+## Technologies
 
-```bash
-# 1. Add .gitignore
-echo "target/" >> .gitignore
+- **Java 17** · Maven
+- **JUnit 5** + **Mockito** (tests)
+- **JaCoCo** (coverage: 100% line and branch per package)
 
-# 2. Remove target/ from the index (keep local files)
-git rm -r --cached target/
-
-# 3. Cleanup commit
-git add .gitignore
-git commit -m "chore: remove build artifacts from version control"
-```
-
----
-
-## 5. Suggested roadmap
-
-1. **Milestone 0 — Repo hygiene:** create `.gitignore`, untrack `target/`.
-2. **Milestone 1 — English code:** rename packages, classes, methods, and messages; update `pom.xml` and tests; verify with `mvn clean verify` (≥ 1.00 coverage still passes).
-3. **Milestone 2 — Template system:** create `project-template.yaml` and `structure-analyzer.py` to bring `TEMPLATE_SYSTEM_README.md` to life.
-4. **Milestone 3 — Quality/CI:** `LICENSE`, GitHub Actions workflow, enforcer plugin.
-
----
-
-## 6. Verification
+## Build and verification
 
 ```bash
 mvn clean verify
 ```
 
-The build runs all tests (~96) and the JaCoCo check enforces 100% line and branch coverage per package. HTML report at `target/site/jacoco/index.html`.
+Runs the **103 tests** and the JaCoCo coverage check. The HTML report is at `target/site/jacoco/index.html`.
+
+## Additional documentation
+
+- [README.es.md](README.es.md) — Spanish version of the README
+- [docs/analisis.en.md](docs/analisis.en.md) — Structure analysis and change proposal (historical)
