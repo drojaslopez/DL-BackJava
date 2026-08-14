@@ -1,0 +1,298 @@
+# Project Template - NeonPulse Ticketera Structure
+# This file defines the base structure to replicate Java projects with Clean Architecture
+
+project:
+  name: "NeonPulse Ticketera Template"
+  type: "java-clean-architecture"
+  version: "1.0"
+  description: "Base template for Java projects with Clean/Hexagonal Architecture"
+
+# Technology Stack
+technology:
+  language: "Java"
+  version: "17"
+  build_tool: "Maven"
+  architecture: "Clean Architecture / Hexagonal Architecture"
+  design_pattern: "Domain-Driven Design (DDD)"
+
+# Directory Structure
+directory_structure:
+  root:
+    - path: "src/main/java"
+      purpose: "Production source code"
+      required: true
+
+    - path: "src/test/java"
+      purpose: "Test source code"
+      required: true
+
+    - path: "src/main/java/{base_package}"
+      purpose: "Base package directory of the project"
+      required: true
+      replaceable: true
+      variable: "base_package"
+
+# Package Structure (Clean Architecture)
+package_structure:
+  base: "{base_package}"
+  layers:
+    - name: "domain"
+      purpose: "Domain layer (core business logic)"
+      required: true
+      subpackages:
+        - name: "entity"
+          purpose: "Domain entities"
+          required: true
+        - name: "valueobject"
+          purpose: "Immutable value objects"
+          required: true
+        - name: "repository"
+          purpose: "Repository interfaces (ports)"
+          required: true
+        - name: "service"
+          purpose: "Domain services"
+          required: true
+        - name: "exception"
+          purpose: "Domain exceptions"
+          required: true
+
+    - name: "application"
+      purpose: "Application layer (use cases)"
+      required: true
+      subpackages:
+        - name: "port"
+          purpose: "Input/output ports (interfaces)"
+          required: true
+        - name: "service"
+          purpose: "Application services"
+          required: true
+        - name: "usecase"
+          purpose: "Orchestrating use cases"
+          required: true
+
+    - name: "infrastructure"
+      purpose: "Infrastructure layer (implementations)"
+      required: true
+      subpackages:
+        - name: "persistence"
+          purpose: "Persistence implementations"
+          required: true
+
+# Maven Configuration
+maven_config:
+  pom_xml:
+    model_version: "4.0.0"
+    group_id: "{base_package}"
+    artifact_id: "{project_name}"
+    version: "1.0-SNAPSHOT"
+    packaging: "jar"
+
+    properties:
+      project_build_sourceEncoding: "UTF-8"
+      maven_compiler_source: "17"
+      maven_compiler_target: "17"
+
+    dependencies:
+      - scope: "test"
+        libs:
+          - group_id: "org.junit.jupiter"
+            artifact_id: "junit-jupiter-api"
+            version: "5.11.0"
+          - group_id: "org.junit.jupiter"
+            artifact_id: "junit-jupiter-engine"
+            version: "5.11.0"
+          - group_id: "org.junit.jupiter"
+            artifact_id: "junit-jupiter-params"
+            version: "5.11.0"
+          - group_id: "org.mockito"
+            artifact_id: "mockito-core"
+            version: "5.11.0"
+          - group_id: "org.mockito"
+            artifact_id: "mockito-junit-jupiter"
+            version: "5.11.0"
+          - group_id: "org.assertj"
+            artifact_id: "assertj-core"
+            version: "3.25.3"
+
+    plugins:
+      - group_id: "org.apache.maven.plugins"
+        artifact_id: "maven-surefire-plugin"
+        version: "3.2.5"
+        configuration:
+          includes:
+            - "**/*Test.java"
+
+      - group_id: "org.jacoco"
+        artifact_id: "jacoco-maven-plugin"
+        version: "0.8.11"
+        executions:
+          - id: "prepare-agent"
+            goals:
+              - "prepare-agent"
+          - id: "report"
+            goals:
+              - "report"
+          - id: "check"
+            goals:
+              - "check"
+            configuration:
+              rules:
+                - element: "BUNDLE"
+                  limits:
+                    - counter: "LINE"
+                      value: "COVEREDRATIO"
+                      minimum: "1.00"
+                    - counter: "BRANCH"
+                      value: "COVEREDRATIO"
+                      minimum: "1.00"
+
+      - group_id: "com.trivago.rta"
+        artifact_id: "jacoco-console-reporter"
+        version: "1.3.2"
+        executions:
+          - id: "report"
+            goals:
+              - "report"
+
+# Required Configuration Files
+required_files:
+  - path: "pom.xml"
+    purpose: "Maven configuration"
+    required: true
+    template: true
+
+  - path: ".gitignore"
+    purpose: "Files ignored by Git"
+    required: true
+    template: true
+
+  - path: "README.md"
+    purpose: "Project documentation"
+    required: true
+    template: true
+
+# Design Patterns to Implement
+design_patterns:
+  - name: "Dependency Inversion Principle"
+    description: "All external dependencies must be interfaces"
+    implementation: "Constructor injection"
+
+  - name: "Value Objects"
+    description: "Immutable value objects with self-validation"
+    implementation: "Java Records with compact constructor"
+
+  - name: "Repository Pattern"
+    description: "Interfaces in domain, implementations in infrastructure"
+    implementation: "Interface/implementation separation"
+
+  - name: "Use Case Pattern"
+    description: "Use cases that orchestrate business logic"
+    implementation: "Classes in the usecase package"
+
+# Testing Patterns
+testing_patterns:
+  - name: "AAA Pattern"
+    description: "Arrange-Act-Assert in every test"
+    required: true
+
+  - name: "Parameterized Tests"
+    description: "Tests with @ValueSource and @NullAndEmptySource"
+    required: true
+
+  - name: "Mockito Extension"
+    description: "@ExtendWith(MockitoExtension.class)"
+    required: true
+
+  - name: "AssertJ"
+    description: "Fluent assertions and exception verification"
+    required: true
+
+  - name: "Display Names"
+    description: "@DisplayName for readable descriptions"
+    required: true
+
+# Code Conventions
+code_conventions:
+  naming:
+    classes: "PascalCase"
+    methods: "camelCase"
+    variables: "camelCase"
+    packages: "lowercase"
+    constants: "UPPER_SNAKE_CASE"
+
+  language: "English"
+  comments: "English"
+
+  architecture_principles:
+    - "Domain fully isolated without framework dependencies"
+    - "Interfaces for all external dependencies"
+    - "Value Objects with Java Records"
+    - "Validations in constructors"
+    - "Final fields where possible"
+    - "Optional<T> for null handling"
+
+# Quality Requirements
+quality_requirements:
+  coverage:
+    tool: "JaCoCo"
+    minimum_line_coverage: "100%"
+    minimum_branch_coverage: "100%"
+    enforce: true
+
+  testing:
+    framework: "JUnit 5"
+    mocking: "Mockito"
+    assertions: "AssertJ"
+    one_test_per_class: true
+
+# Build Commands
+build_commands:
+  main: "mvn clean test jacoco:report"
+  compile: "mvn clean compile"
+  test: "mvn clean test"
+  package: "mvn clean package"
+  install: "mvn clean install"
+
+# Validation Rules
+validation_rules:
+  - rule: "domain_layer_isolation"
+    description: "The domain layer must not have external dependencies"
+    severity: "error"
+
+  - rule: "interface_injection"
+    description: "All dependencies must be injected via constructor"
+    severity: "error"
+
+  - rule: "test_coverage"
+    description: "Coverage must be 100% on lines and branches"
+    severity: "error"
+
+  - rule: "value_object_immutability"
+    description: "Value Objects must be immutable"
+    severity: "error"
+
+# Expected Metrics
+expected_metrics:
+  test_to_code_ratio: "1:2"
+  domain_layer_percentage: "40%"
+  application_layer_percentage: "35%"
+  infrastructure_layer_percentage: "25%"
+
+# Required Documentation
+required_documentation:
+  - "README.md with project description"
+  - "Architecture documentation"
+  - "Test execution guide"
+  - "Implemented patterns documentation"
+
+# Customizable Variables
+variables:
+  - name: "base_package"
+    description: "Full base package of the project (e.g. com.mycompany, drl.desafio)"
+    default: "com.mycompany"
+    required: true
+
+  - name: "project_name"
+    description: "Project name (artifactId)"
+    default: "myproject"
+    required: true
