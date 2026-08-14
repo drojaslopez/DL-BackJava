@@ -102,4 +102,3 @@ Ejecuta los **103 tests** y el chequeo de cobertura JaCoCo. El reporte HTML qued
 ## Documentación complementaria
 
 - [README.en.md](README.en.md) — Versión en inglés del README
-- [docs/analisis.es.md](docs/analisis.es.md) — Análisis de estructura y propuesta de cambios (histórico)

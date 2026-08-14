@@ -17,15 +17,15 @@ Backend project that models the core of a bank: **account holders**, **bank acco
 
 ## Features
 
-| Operation | Description |
-|---|---|
-| `createAccount` | Creates an account (savings or checking) with an initial balance and generates a unique `ACC-XXXXXXXX` number. |
-| `deposit` | Makes a deposit and records the transaction. |
-| `withdraw` | Withdraws money if there is enough balance; otherwise throws `InsufficientBalanceException`. |
-| `transfer` | Transfers between accounts (source → destination) validating that both exist, are active, and are not the same account. |
-| `checkBalance` | Checks the current balance of an account. |
-| `findAccountsByAccountHolder` | Lists a holder's accounts by identification. |
-| `activateAccount` / `deactivateAccount` | Activates or deactivates an account (deactivated accounts cannot operate). |
+| Operation                                   | Description                                                                                                              |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `createAccount`                           | Creates an account (savings or checking) with an initial balance and generates a unique`ACC-XXXXXXXX` number.          |
+| `deposit`                                 | Makes a deposit and records the transaction.                                                                             |
+| `withdraw`                                | Withdraws money if there is enough balance; otherwise throws`InsufficientBalanceException`.                            |
+| `transfer`                                | Transfers between accounts (source → destination) validating that both exist, are active, and are not the same account. |
+| `checkBalance`                            | Checks the current balance of an account.                                                                                |
+| `findAccountsByAccountHolder`             | Lists a holder's accounts by identification.                                                                             |
+| `activateAccount` / `deactivateAccount` | Activates or deactivates an account (deactivated accounts cannot operate).                                               |
 
 **Domain rules:**
 
@@ -56,13 +56,13 @@ double balance = service.checkBalance(account.getAccountNumber()); // 1300.0
 AccountHolder 1 ───── * BankAccount 1 ───── * Transaction
 ```
 
-| Entity | Attributes | Notes |
-|---|---|---|
-| `AccountHolder` | `identification`, `firstName`, `lastName` | Holder; identity by `identification`. `getFullName()` method. |
-| `BankAccount` | `accountNumber`, `accountHolder`, `accountType`, `balance`, `transactionHistory`, `active` | Identity by `accountNumber` (`ACC-XXXXXXXX` format). |
-| `Transaction` | `id`, `type`, `amount`, `date`, `description` | Immutable; identity by `id` (`TXN-XXXXXXXX` format). |
-| `AccountType` | `SAVINGS`, `CHECKING` | Account type enum. |
-| `TransactionType` | `DEPOSIT`, `WITHDRAWAL` | Transaction type enum. |
+| Entity              | Attributes                                                                                             | Notes                                                            |
+| ------------------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
+| `AccountHolder`   | `identification`, `firstName`, `lastName`                                                        | Holder; identity by`identification`. `getFullName()` method. |
+| `BankAccount`     | `accountNumber`, `accountHolder`, `accountType`, `balance`, `transactionHistory`, `active` | Identity by`accountNumber` (`ACC-XXXXXXXX` format).          |
+| `Transaction`     | `id`, `type`, `amount`, `date`, `description`                                                | Immutable; identity by`id` (`TXN-XXXXXXXX` format).          |
+| `AccountType`     | `SAVINGS`, `CHECKING`                                                                              | Account type enum.                                               |
+| `TransactionType` | `DEPOSIT`, `WITHDRAWAL`                                                                            | Transaction type enum.                                           |
 
 **Business exceptions** (`domain.exception`): `InvalidAmountException` (invalid amount) and `InsufficientBalanceException` (insufficient balance).
 
@@ -102,4 +102,3 @@ Runs the **103 tests** and the JaCoCo coverage check. The HTML report is at `tar
 ## Additional documentation
 
 - [README.es.md](README.es.md) — Spanish version of the README
-- [docs/analisis.en.md](docs/analisis.en.md) — Structure analysis and change proposal (historical)
