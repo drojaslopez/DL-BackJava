@@ -17,15 +17,15 @@ Proyecto backend que modela el núcleo de un banco: **titulares**, **cuentas ban
 
 ## Funcionalidades
 
-| Operación | Descripción |
-|---|---|
-| `createAccount` | Crea una cuenta (ahorro o corriente) con saldo inicial y genera un número único `ACC-XXXXXXXX`. |
-| `deposit` | Realiza un depósito y registra la transacción. |
-| `withdraw` | Retira dinero si hay saldo suficiente; si no, lanza `InsufficientBalanceException`. |
-| `transfer` | Transfiere entre cuentas (origen → destino) validando que ambas existan, estén activas y no sean la misma. |
-| `checkBalance` | Consulta el saldo actual de una cuenta. |
-| `findAccountsByAccountHolder` | Lista las cuentas de un titular por identificación. |
-| `activateAccount` / `deactivateAccount` | Activa o desactiva una cuenta (las cuentas desactivadas no admiten operaciones). |
+| Operación                                  | Descripción                                                                                                 |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `createAccount`                           | Crea una cuenta (ahorro o corriente) con saldo inicial y genera un número único`ACC-XXXXXXXX`.           |
+| `deposit`                                 | Realiza un depósito y registra la transacción.                                                             |
+| `withdraw`                                | Retira dinero si hay saldo suficiente; si no, lanza`InsufficientBalanceException`.                         |
+| `transfer`                                | Transfiere entre cuentas (origen → destino) validando que ambas existan, estén activas y no sean la misma. |
+| `checkBalance`                            | Consulta el saldo actual de una cuenta.                                                                      |
+| `findAccountsByAccountHolder`             | Lista las cuentas de un titular por identificación.                                                         |
+| `activateAccount` / `deactivateAccount` | Activa o desactiva una cuenta (las cuentas desactivadas no admiten operaciones).                             |
 
 **Reglas de dominio:**
 
@@ -56,13 +56,13 @@ double balance = service.checkBalance(account.getAccountNumber()); // 1300.0
 AccountHolder 1 ───── * BankAccount 1 ───── * Transaction
 ```
 
-| Entidad | Atributos | Notas |
-|---|---|---|
-| `AccountHolder` | `identification`, `firstName`, `lastName` | Titular; identidad por `identification`. Método `getFullName()`. |
-| `BankAccount` | `accountNumber`, `accountHolder`, `accountType`, `balance`, `transactionHistory`, `active` | Identidad por `accountNumber` (formato `ACC-XXXXXXXX`). |
-| `Transaction` | `id`, `type`, `amount`, `date`, `description` | Inmutable; identidad por `id` (formato `TXN-XXXXXXXX`). |
-| `AccountType` | `SAVINGS`, `CHECKING` | Enum de tipos de cuenta. |
-| `TransactionType` | `DEPOSIT`, `WITHDRAWAL` | Enum de tipos de transacción. |
+| Entidad             | Atributos                                                                                              | Notas                                                                |
+| ------------------- | ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------- |
+| `AccountHolder`   | `identification`, `firstName`, `lastName`                                                        | Titular; identidad por`identification`. Método `getFullName()`. |
+| `BankAccount`     | `accountNumber`, `accountHolder`, `accountType`, `balance`, `transactionHistory`, `active` | Identidad por`accountNumber` (formato `ACC-XXXXXXXX`).           |
+| `Transaction`     | `id`, `type`, `amount`, `date`, `description`                                                | Inmutable; identidad por`id` (formato `TXN-XXXXXXXX`).           |
+| `AccountType`     | `SAVINGS`, `CHECKING`                                                                              | Enum de tipos de cuenta.                                             |
+| `TransactionType` | `DEPOSIT`, `WITHDRAWAL`                                                                            | Enum de tipos de transacción.                                       |
 
 **Excepciones de negocio** (`domain.exception`): `InvalidAmountException` (monto inválido) e `InsufficientBalanceException` (saldo insuficiente).
 

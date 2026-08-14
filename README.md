@@ -8,8 +8,8 @@ Bank account management system in Java 17 with a pure domain (DDD) and Clean Arc
 
 | Idioma / Language | Documento / Document |
 |---|---|
-| Español | [README.es.md](README.es.md) — Ámbito, funcionalidades, modelo y estructura |
-| English | [README.en.md](README.en.md) — Scope, features, model and structure |
+| Español | [README.es.md](./docs/README.es.md) — Ámbito, funcionalidades, modelo y estructura |
+| English | [README.en.md](./docs/README.en.md) — Scope, features, model and structure |
 
 ## Inicio rápido / Quick start
 
