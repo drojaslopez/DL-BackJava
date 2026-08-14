@@ -1,4 +1,5 @@
 # Sistema de Gestión de Cuentas Bancarias
+
 ## Daniel Rojas Lopez
 
 Este proyecto implementa un sistema de gestión de cuentas bancarias con un enfoque en **Dominio Puro**, siguiendo los principios de Domain-Driven Design (DDD). Está desarrollado en Java 17 sin dependencias de frameworks externos para el core de negocio, garantizando un código limpio, mantenible y testeable.
@@ -11,7 +12,7 @@ El desafío consistió en crear un repositorio estructurado que cumpla con tres 
 2. **Suite Automatizada con JUnit 5 y Mockito** (3 Puntos) - Tests exhaustivos con patrón AAA
 3. **Cobertura cercana al 100% en Métodos Críticos** (4 Puntos) - Cobertura verificable con JaCoCo (~98%)
 
-##  Arquitectura del Proyecto
+## Arquitectura del Proyecto
 
 El proyecto sigue una arquitectura en capas con separación clara de responsabilidades:
 
@@ -26,13 +27,14 @@ src/
     └── servicio/         # Tests de servicios con Mockito
 ```
 
-##  Modelo de Dominio
+## Modelo de Dominio
 
 ### Entidades Principales
 
 El sistema gestiona cuentas bancarias con las siguientes entidades:
 
 #### Titular
+
 Representa a la persona propietaria de una cuenta bancaria. Incluye validaciones para asegurar que los datos esenciales estén presentes.
 
 ```java
@@ -54,12 +56,14 @@ public class Titular {
 ```
 
 **¿Cómo funciona?**
+
 - El constructor valida que ningún campo esencial sea nulo o vacío
 - Aplica `trim()` para eliminar espacios en blanco innecesarios
 - Los campos son `final` para garantizar inmutabilidad
 - Implementa `equals()` y `hashCode()` basados en la identificación
 
 #### CuentaBancaria
+
 Es la entidad central del sistema. Maneja el saldo, transacciones y operaciones bancarias fundamentales.
 
 ```java
@@ -78,7 +82,7 @@ public class CuentaBancaria {
         if (monto <= 0) {
             throw new ExcepcionMontoInvalido("El monto a depositar debe ser mayor a cero");
         }
-        
+      
         saldo += monto;
         Transaccion transaccion = new Transaccion(/* ... */);
         historialTransacciones.add(transaccion);
@@ -87,6 +91,7 @@ public class CuentaBancaria {
 ```
 
 **¿Cómo funciona?**
+
 - Valida que la cuenta esté activa antes de permitir operaciones
 - Verifica que el monto sea positivo
 - Actualiza el saldo automáticamente
@@ -94,6 +99,7 @@ public class CuentaBancaria {
 - Lanza excepciones específicas del dominio
 
 #### Transaccion
+
 Representa cualquier movimiento de dinero (depósito o retiro) con metadatos completos.
 
 ```java
@@ -112,6 +118,7 @@ public class Transaccion {
 ```
 
 **¿Cómo funciona?**
+
 - Genera automáticamente la fecha/hora de la transacción
 - Valida que el monto sea mayor a cero
 - Usa un ID único para identificar cada transacción
@@ -138,6 +145,7 @@ public class ExcepcionMontoInvalido extends RuntimeException {
 ```
 
 **¿Por qué excepciones personalizadas?**
+
 - Permiten un manejo de errores más específico
 - Facilitan el testing con `assertThrows`
 - Mejoran la legibilidad del código de negocio
@@ -146,6 +154,7 @@ public class ExcepcionMontoInvalido extends RuntimeException {
 ## Servicios con Inyección por Constructor
 
 ### ServicioCuenta
+
 Orquesta las operaciones de negocio utilizando el patrón de inyección de dependencias por constructor.
 
 ```java
@@ -164,14 +173,14 @@ public class ServicioCuenta {
         if (cuentaOrigen == null || cuentaOrigen.trim().isEmpty()) {
             throw new IllegalArgumentException("La cuenta origen no puede ser nula o vacía");
         }
-        
+      
         // Recuperación de entidades
         CuentaBancaria origen = repositorioCuentas.buscarPorNumero(cuentaOrigen)
                 .orElseThrow(() -> new IllegalArgumentException("Cuenta origen no encontrada"));
-        
+      
         CuentaBancaria destino = repositorioCuentas.buscarPorNumero(cuentaDestino)
                 .orElseThrow(() -> new IllegalArgumentException("Cuenta destino no encontrada"));
-        
+      
         // Ejecución de la lógica de negocio
         origen.transferir(destino, monto, descripcion);
     }
@@ -179,6 +188,7 @@ public class ServicioCuenta {
 ```
 
 **¿Cómo funciona?**
+
 - Recibe el repositorio por constructor (inyección de dependencias)
 - Valida los parámetros de entrada
 - Usa `Optional` para manejar la ausencia de cuentas
@@ -186,6 +196,7 @@ public class ServicioCuenta {
 - Facilita el testing con Mockito
 
 ### RepositorioCuentas
+
 Interfaz que define el contrato para persistencia de cuentas, permitiendo diferentes implementaciones.
 
 ```java
@@ -198,6 +209,7 @@ public interface RepositorioCuentas {
 ```
 
 **¿Por qué una interfaz?**
+
 - Permite cambiar la implementación sin afectar el servicio
 - Facilita el testing con mocks
 - Sigue el principio de inversión de dependencias
@@ -230,6 +242,7 @@ void depositarMontoValido() {
 ```
 
 **¿Por qué el patrón AAA?**
+
 - Separa claramente cada fase del test
 - Mejora la legibilidad y mantenibilidad
 - Facilita la identificación de problemas
@@ -257,6 +270,7 @@ void retirarConSaldoInsuficienteDebeLanzarExcepcion() {
 ```
 
 **¿Cómo funciona?**
+
 - `assertThrows` captura la excepción esperada
 - Verifica el tipo exacto de la excepción
 - Permite validar el mensaje de error
@@ -279,10 +293,10 @@ class ServicioCuentaTest {
         // Arrange
         ServicioCuenta servicioCuenta = new ServicioCuenta(repositorioCuentas);
         String numeroCuenta = "CTA-12345678";
-        
+      
         Titular titular = new Titular("12345678", "Juan", "Perez");
         CuentaBancaria cuenta = new CuentaBancaria(titular, TipoCuenta.AHORROS, 1000.0);
-        
+      
         when(repositorioCuentas.buscarPorNumero(numeroCuenta))
                 .thenReturn(Optional.of(cuenta));
 
@@ -297,6 +311,7 @@ class ServicioCuentaTest {
 ```
 
 **¿Cómo funciona Mockito?**
+
 - `@Mock` crea un doble de prueba del repositorio
 - `when().thenReturn()` define el comportamiento simulado
 - `verify()` confirma que se llamó al método esperado
@@ -333,16 +348,18 @@ El proyecto está configurado para garantizar el 100% de cobertura en métodos c
 ```
 
 **¿Qué garantiza esta configuración?**
+
 - **Line Coverage ~98%**: Casi todas las líneas de código son ejecutadas por algún test
 - **Branch Coverage ~98%**: Casi todas las condiciones (if、else、switch) se prueban en todas sus ramas
 - Genera un reporte HTML en `target/site/jacoco/index.html`
 - La cobertura cercana al 100% demuestra exhaustividad en el testing
 
-##  Ejecución del Proyecto
+## Ejecución del Proyecto
 
 ### Requisitos Previos
+
 - Java 17 (recomendado para compatibilidad completa con JaCoCo)
-- Maven 3.6+ 
+- Maven 3.6+
 - IDE compatible (IntelliJ IDEA, Eclipse, VS Code)
 
 **Nota sobre Java 21**: El proyecto está configurado para Java 17. Si se ejecuta con Java 21, los tests funcionarán correctamente pero JaCoCo mostrará warnings al intentar instrumentar clases del JDK. El reporte de cobertura se generará igualmente.
@@ -354,6 +371,7 @@ mvn clean test
 ```
 
 Este comando:
+
 1. Limpia el directorio `target`
 2. Compila el código fuente
 3. Ejecuta todos los tests (96 tests en total)
@@ -368,6 +386,7 @@ target/site/jacoco/index.html
 ```
 
 El reporte muestra:
+
 - Cobertura por paquete y clase
 - Líneas no cubiertas en rojo
 - Ramas condicionales no cubiertas
@@ -382,4 +401,3 @@ mvn test -Dtest=CuentaBancariaTest
 # Tests con un nombre específico
 mvn test -Dtest=ServicioCuentaTest#transferirEntreCuentasExistentes
 ```
-
