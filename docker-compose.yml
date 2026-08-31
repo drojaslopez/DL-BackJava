@@ -1,0 +1,32 @@
+services:
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: hogar_postgres_db
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT}:5432"
+     # BUENA PRÁCTICA: Control de salud para verificar disponibilidad real antes de levantar aplicaciones dependientes.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+    # BUENA PRÁCTICA: Delimitar el consumo de recursos para evitar el agotamiento de memoria del host.
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          memory: 256M
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

@@ -1,0 +1,45 @@
+{
+  "version": "1",
+  "name": "Hogar Expenses API - OpenSpec",
+  "type": "collection",
+  "items": [
+    {
+      "name": "1. Create User",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:8080/api/v1/users",
+        "headers": [{ "name": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"name\": \"Felipe Gomez\",\n  \"email\": \"felipe@hogar.cl\"\n}"
+        }
+      }
+    },
+    {
+      "name": "2. Register Purchase in 3 Installments",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:8080/api/v1/purchases",
+        "headers": [{ "name": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"userId\": \"a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11\",\n  \"totalAmount\": 150000,\n  \"purchaseDate\": \"2026-03-01\",\n  \"paymentMethod\": \"CREDIT_CARD\",\n  \"financialInstitution\": \"BANCO_DE_CHILE\",\n  \"installmentCount\": 3,\n  \"expenseType\": \"VARIABLE\",\n  \"scope\": \"HOME\",\n  \"category\": \"ELECTRODOMESTICOS\"\n}"
+        }
+      }
+    },
+    {
+      "name": "3. Query Monthly Dashboard",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/v1/reports/dashboard?month=3&year=2026"
+      }
+    },
+    {
+      "name": "4. Query Future Projection",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/v1/reports/projection?months=6"
+      }
+    }
+  ]
+}

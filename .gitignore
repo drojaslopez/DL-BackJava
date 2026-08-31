@@ -1,24 +1,8 @@
-# Build output
 target/
-
-# IDE
+*.class
 .idea/
 *.iml
-.classpath
-.project
-.settings/
 .vscode/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
+.env.local
 *.log
-
-# Python
-__pycache__/
-*.pyc
-
-.resources/
-
+.bruno/
