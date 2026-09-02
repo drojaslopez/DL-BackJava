@@ -35,13 +35,16 @@ public class DashboardQueryJpa implements DashboardQuery {
             }
         }
 
-        // Installments (due) of the month and purchases in multiple installments whose period falls in the month
+        // Installments (due) of the month - only for purchases with multiple installments
         for (InstallmentJpa installment : jpaRepository.findInstallmentsIn(period)) {
             PurchaseJpa purchase = installment.getPurchase();
-            result.add(new ExpenseLine(
-                    period, purchase.getExpenseType().name(),
-                    purchase.getScope().name(), purchase.getCategory(),
-                    installment.getAmount()));
+            // Skip if this is a single installment purchase (already counted above)
+            if (purchase.getInstallmentCount() > 1) {
+                result.add(new ExpenseLine(
+                        period, purchase.getExpenseType().name(),
+                        purchase.getScope().name(), purchase.getCategory(),
+                        installment.getAmount()));
+            }
         }
 
         return result;

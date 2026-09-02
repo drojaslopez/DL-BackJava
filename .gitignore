@@ -6,3 +6,4 @@ target/
 .env.local
 *.log
 .bruno/
+ESTRUCTURA_DEL_PROYECTO.md
